@@ -42,12 +42,12 @@ export const fetchFarmsPublicDataAsync = () => async (dispatch) => {
    // const farms2 = await fetchFarmstrx()
    // dispatch(setFarmsPublicData(farms2))
 
-  const farms = await fetchFarms()
-  dispatch(setFarmsPublicData(farms))
+  // const farms = await fetchFarms()
+ //  dispatch(setFarmsPublicData(farms))
 
   const farms2 = await fetchFarmstrx()
-  // dispatch(setFarmsPublicData(farms2))
-  console.log(farms2)
+  dispatch(setFarmsPublicData(farms2))
+
   
 }
 export const fetchFarmUserDataAsync = (account) => async (dispatch) => {

@@ -93,22 +93,7 @@ export const fetchFarmUserTokenBalances = async (account: string) => {
 }
 
 export const fetchFarmUserStakedBalances = async (account: string) => {
-  // bsc
-  const masterChefAdress = getMasterChefAddress()
-
-  const calls = farmsConfig.filter(bscFarmFilter).map((farm) => {
-    return {
-      address: masterChefAdress,
-      name: 'userInfo',
-      params: [farm.pid, account],
-    }
-  })
-
-  const rawStakedBalances = await multicall(masterchefABI, calls)
-  const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
-    return new BigNumber(stakedBalance[0]._hex).toJSON()
-  })
-
+ 
   // trxFarmFilter
 
   const masterChefAdresstrx = getMasterChefAddresstrx()
@@ -117,19 +102,16 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
     return {
       address: masterChefAdresstrx,
       name: 'userInfo(uint256,address)',
-      params: [farm.pid === 3 ? '0' : farm.pid , (window as any).tronWeb.defaultAddress.base58],
+      params: [farm.pid , (window as any).tronWeb.defaultAddress.base58],
     }
   })
 
   const rawStakedBalancestrx = await multicalltrx(masterchefABItrx, callstrx)
   const parsedStakedBalancestrx = rawStakedBalancestrx.map((stakedBalance) => {
-    return new BigNumber((stakedBalance as any).amount).toJSON()
+    return stakedBalance[0].toJSON()
   })
-
-
-  // dont  need to do this in th e end
-  const concatreturnArray = parsedStakedBalances.concat(parsedStakedBalancestrx);
-  return concatreturnArray
+ 
+  return parsedStakedBalancestrx
 }
 
 export const fetchFarmUserEarnings = async (account: string) => {
@@ -158,7 +140,7 @@ export const fetchFarmUserEarnings = async (account: string) => {
     return {
       address: masterChefAdresstrx,
       name: 'pendingEgg(uint256,address)',
-      params: [farm.pid === 3 ? '0' : farm.pid , (window as any).tronWeb.defaultAddress.base58],
+      params: [farm.pid , (window as any).tronWeb.defaultAddress.base58],
     }
   })
 

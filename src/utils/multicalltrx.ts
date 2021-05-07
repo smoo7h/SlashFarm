@@ -47,7 +47,7 @@ const multicalltrx = async (abi: any[], calls: Call[]) => {
         value = await contractObj[val.name]().call();
        
       }
-    }else if(val.params[0] && val.params[1] === undefined){
+    }else if(val.params.length === 1){
       // this is 1 param
     
 
@@ -77,7 +77,9 @@ const multicalltrx = async (abi: any[], calls: Call[]) => {
          value = bigNumResult;
       }
       else{
-        value = await contractObj[val.name](val.params[0]).call();
+       
+          value = await contractObj[val.name](val.params[0]).call();
+       
        
       }
     
@@ -111,9 +113,32 @@ const multicalltrx = async (abi: any[], calls: Call[]) => {
           // parameter
          );
 
-        const bigNumResult = new BigNumber(`0x${transaction.constant_result[0].replace('fffffffffffffffffffffffffffff','')}`)   
-        // need to convert this hex number to a bignumber
+
+         let bigNumResult;
        
+         // we need to see if it passed back an array or a single vlaue
+        if(transaction.constant_result[0].length === 128)
+        {
+          // we need  to parse out  the return value here
+          const stringVal1  = transaction.constant_result[0].substring(0,64);
+          const stringVal2  = transaction.constant_result[0].substring(64,128);
+          
+          // return array of parseed values into bignumbers
+          const value1 = new BigNumber(`0x${stringVal1.replace('fffffffffffffffffffffffffffff','')}`);
+          // this fff thing is a hack to fix an error
+          const value2 = new BigNumber(`0x${stringVal2.replace('fffffffffffffffffffffffffffff','')}`);
+
+          const returnarrray = [value1, value2];
+          bigNumResult = returnarrray
+          
+        }
+        else
+        {
+          // return single
+          // need to convert this hex number to a bignumber
+          bigNumResult = new BigNumber(`0x${transaction.constant_result[0].replace('fffffffffffffffffffffffffffff','')}`)   
+        }
+
          value = bigNumResult;
      
       

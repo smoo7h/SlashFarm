@@ -53,8 +53,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
       return getContract(ethereum as provider, tokenAddress);
     }
     // tron
-    if (!isTokenOnly && lpAddress !== '') {
-      return getContracttrx(ethereum as provider, lpAddress);
+    if (!isTokenOnly && lpAddresstrx !== '') {
+      return getContracttrx(ethereum as provider, lpAddresstrx);
     }
 
     return getContract(ethereum as provider, lpAddress);

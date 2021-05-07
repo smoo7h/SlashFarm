@@ -3,7 +3,7 @@ import addresses from 'config/constants/contracts'
 const chainId = process.env.REACT_APP_CHAIN_ID
 
 export const getCakeAddress = () => {
-  return addresses.cake[chainId]
+  return addresses.cake[97]
 }
 export const getCakeAddresstrx = () => {
   return addresses.cake[97]

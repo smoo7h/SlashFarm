@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'config/abi/erc20.json'
 import trc20 from 'config/abi/trc20.json'
 import trc20JustSwap from 'config/abi/trc20JustSwap.json'
-import masterchefABI from 'config/abi/masterchef.json'
+import masterchefABI from 'config/abi/mastercheftrx.json'
 import multicall from 'utils/multicall'
 import multicalltrx from 'utils/multicalltrx'
 
@@ -13,7 +13,7 @@ import { QuoteToken } from '../../config/constants/types'
 const CHAIN_ID = 97
 
 function trxFarmFilter(element) { 
-  return (element.chaintype === 'trx'); 
+  return (element.pid === 0); 
 } 
 
 function bscFarmFilter(element) { 
@@ -23,24 +23,14 @@ function bscFarmFilter(element) {
 
 const fetchFarmstrx = async () => {
   const data = await Promise.all(
-    farmsConfig.filter(trxFarmFilter).map(async (farmConfig) => {
-      // const lpAdress = farmConfig.lpAddresses[CHAIN_ID]
-      // hard code an address for now 
-
-      // this is the tewken LP address
-      // const lpAddress = 'TWqpMi6TMrCqLuaSmb8X9XJD3kmbAfurTb';
+    farmsConfig.map(async (farmConfig) => {
+  
       const lpAddress = farmConfig.lpAddresses[97];
-      // this is the tewken token address
+
       const tokenAddress = farmConfig.tokenAddresses[97];
 
       const quoteTokenAddress = farmConfig.quoteTokenAdresses[97];
-      // this is the tewken farm address
-      // const tokenFarmAdress = 'TG1zhkQCH8zdYpJFiyy5iR4dwYTNnwpT6p';
-
-      // const wTrxAddress = 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR';
-
-      
-
+   
       const calls = [
         // Balance of token in the LP contract
         {
@@ -85,10 +75,6 @@ const fetchFarmstrx = async () => {
           name: 'decimals()',
         },
       ]
-
-      
-      const callsmall = calls.filter(obj => obj === calls[3] );
-
 
       const [
         tokenBalanceLP,
@@ -136,19 +122,19 @@ const fetchFarmstrx = async () => {
         }
       }
 
-      const [info, totalAllocPoint, eggPerBlock] = await multicall(masterchefABI, [
+      const [info, totalAllocPoint, eggPerBlock] = await multicalltrx(masterchefABI, [
         {
-          address: getMasterChefAddress(),
-          name: 'poolInfo',
+          address: getMasterChefAddresstrx(),
+          name: 'poolInfo(uint256)',
           params: [farmConfig.pid],
         },
         {
-          address: getMasterChefAddress(),
-          name: 'totalAllocPoint',
+          address: getMasterChefAddresstrx(),
+          name: 'totalAllocPoint()',
         },
         {
-          address: getMasterChefAddress(),
-          name: 'eggPerBlock',
+          address: getMasterChefAddresstrx(),
+          name: 'eggPerBlock()',
         },
       ])
 
