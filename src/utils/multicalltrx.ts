@@ -49,7 +49,18 @@ const multicalltrx = async (abi: any[], calls: Call[]) => {
       }
     }else if(val.params.length === 1){
       // this is 1 param
-    
+   
+        // we need to check if there a trx quote.  if there  is we need to do a diff call mehtod 
+      if(val.address === 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR' && val.name === 'balanceOf(address)'){
+        
+        const trxbalance = await (window as any).tronWeb.trx.getAccount(val.params[0]);
+
+        value = new BigNumber(trxbalance.balance);
+        return(value)
+      }
+
+
+
 
       if(contractObj.abi.length <= 1){
         const functionSelector = val.name;

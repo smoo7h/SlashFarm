@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from 'react'
+import React, { useEffect, Suspense, lazy, useState } from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
 import TronWeb from "tronweb";
@@ -28,7 +28,8 @@ BigNumber.config({
 
 const App: React.FC = () => {
   const FOUNDATION_ADDRESS = "TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa"; // blank address
-  const { account, connect } = useWallet()
+  // const { account, connect } = useWallet()
+  const [account, connect] = useState(null)
   // connect to the tron network
   const waitTron = () => {
     return new Promise((resolve, reject) => {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       const checkTron = () => {
 
         if ((window as any).tronWeb) {
+
           resolve(true);
           return;
         }
@@ -71,14 +73,13 @@ const App: React.FC = () => {
       waitTron()
       connect('injected')
     }
-    // binance stuff
-    if (!account && window.localStorage.getItem('accountStatus')) {
 
-      connect('injected')
-    }
   }, [account, connect])
 
+
   useFetchPublicData()
+
+
 
   return (
     <Router>

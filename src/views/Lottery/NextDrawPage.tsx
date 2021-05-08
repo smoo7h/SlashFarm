@@ -50,7 +50,7 @@ const NextDrawPage: React.FC = () => {
           <TotalPrizesCard />
         </div>
         <SecondCardColumnWrapper isAWin={isAWin}>
-          {!account ? (
+          {(window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' ? (
             <UnlockWalletCard />
           ) : (
             <>

@@ -32,33 +32,19 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { pid, lpAddresses, tokenAddresses, isTokenOnly, depositFeeBP } = useFarmFromPid(farm.pid)
   const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
-  const lpAddress = lpAddresses[process.env.REACT_APP_CHAIN_ID]
   const lpAddresstrx = lpAddresses[97]
-  const tokenAddress = tokenAddresses[process.env.REACT_APP_CHAIN_ID];
   const tokenAddresstrx = tokenAddresses[97];
   const lpName = farm.lpSymbol.toUpperCase()
-  const isApproved = account && allowance && allowance.isGreaterThan(0)
+  const isApproved = (window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 !== 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' && allowance && allowance.isGreaterThan(0)
 
   const lpContract = useMemo(() => {
-    // bsc
-    if (isTokenOnly && tokenAddresstrx === '') {
-      return getContract(ethereum as provider, tokenAddress);
-    }
+
     // tron
-    if (isTokenOnly && tokenAddresstrx !== '') {
+    if (isTokenOnly) {
       return getContracttrx(ethereum as provider, tokenAddresstrx);
     }
-    // bsc
-    if (!isTokenOnly && lpAddresstrx === '') {
-      return getContract(ethereum as provider, tokenAddress);
-    }
-    // tron
-    if (!isTokenOnly && lpAddresstrx !== '') {
-      return getContracttrx(ethereum as provider, lpAddresstrx);
-    }
-
-    return getContract(ethereum as provider, lpAddress);
-  }, [ethereum, lpAddress, tokenAddress, isTokenOnly, tokenAddresstrx, lpAddresstrx])
+    return getContracttrx(ethereum as provider, lpAddresstrx);
+  }, [ethereum, isTokenOnly, tokenAddresstrx, lpAddresstrx])
 
   const { onApprove } = useApprovetrx(lpContract)
 
@@ -102,7 +88,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
           {TranslateString(999, 'Staked')}
         </Text>
       </Flex>
-      {!account ? <UnlockButton mt="8px" fullWidth /> : renderApprovalOrStakeButton()}
+      {(window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' ? <UnlockButton mt="8px" fullWidth /> : renderApprovalOrStakeButton()}
     </Action>
   )
 }

@@ -106,7 +106,7 @@ const TransferNftModal: React.FC<TransferNftModalProps> = ({ nft, tokenIds, onSu
         <Button fullWidth variant="secondary" onClick={onDismiss}>
           {TranslateString(462, 'Cancel')}
         </Button>
-        <Button fullWidth onClick={handleConfirm} disabled={!account || isLoading || !value}>
+        <Button fullWidth onClick={handleConfirm} disabled={!(window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' || isLoading || !value}>
           {TranslateString(464, 'Confirm')}
         </Button>
       </Actions>

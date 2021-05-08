@@ -33,8 +33,8 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const dispatch = useDispatch()
   const { fastRefresh } = useRefresh()
   useEffect(() => {
-    if (account) {
-      dispatch(fetchFarmUserDataAsync(account))
+    if ((window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 !== 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa') {
+      dispatch(fetchFarmUserDataAsync())
     }
   }, [account, dispatch, fastRefresh])
 

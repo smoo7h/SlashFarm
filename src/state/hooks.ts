@@ -69,20 +69,31 @@ export const usePoolFromPid = (sousId): Pool => {
 // Prices
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 2 // BUSD-BNB LP
+  const pid = 2 // trx-usdt LP
   
   const farm = useFarmFromPid(pid)
-  return farm.tokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : ZERO
+
+  // find out the cost of 1 trx
+  const trxPriceUSD = farm.tokenPriceVsQuote ? new BigNumber(1).div(farm.tokenPriceVsQuote) : ZERO;
+
+  return farm.tokenPriceVsQuote ? trxPriceUSD : ZERO
 }
 
 export const usePriceCakeBusd = (): BigNumber => {
-  // const pid = 1 // CAKE-BNB LP
-   const bnbPriceUSD = usePriceBnbBusd()
-  // const farm = useFarmFromPid(pid)
-  // return farm.tokenPriceVsQuote ? bnbPriceUSD.times(farm.tokenPriceVsQuote) : ZERO
-  const pid = 0; // EGG-BUSD LP
-  const farm = useFarmFromPid(pid);
-  return farm.tokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : ZERO;
+   // get the price of trx
+  const trxPriceUSD = usePriceBnbBusd();
+  
+   
+  // get EGG lp
+   const pid = 1; // EGG-TRX LP
+   const farm = useFarmFromPid(pid);
+   // get token quote
+   const quoteprice = farm.tokenPriceVsQuote;
+    // multiply token quote by trx price
+   const tokenPriceUsd = farm.tokenPriceVsQuote  ? trxPriceUSD.multipliedBy(new BigNumber(quoteprice)) : ZERO;
+  
+
+  return farm.tokenPriceVsQuote ? new BigNumber(tokenPriceUsd) : ZERO;
 }
 
 export const useTotalValue = (): BigNumber => {

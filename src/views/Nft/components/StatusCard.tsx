@@ -21,7 +21,7 @@ const StatusCard = () => {
   const { isInitialized, canClaim, hasClaimed, balanceOf } = useContext(NftProviderContext)
   const TranslateString = useI18n()
 
-  if (!account) {
+  if ((window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa') {
     return (
       <Card isActive>
         <CardBody>

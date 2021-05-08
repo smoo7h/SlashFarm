@@ -20,7 +20,7 @@ export interface IfoCardProps {
   ifo: Ifo
 }
 
-const StyledIfoCard = styled(Card)<{ ifoId: string }>`
+const StyledIfoCard = styled(Card) <{ ifoId: string }>`
   background-image: ${({ ifoId }) => `url('/images/ifos/${ifoId}-bg.svg')`};
   background-repeat: no-repeat;
   background-size: contain;
@@ -151,7 +151,7 @@ const IfoCard: React.FC<IfoCardProps> = ({ ifo }) => {
           secondsUntilEnd={state.secondsUntilEnd}
           block={isActive || isFinished ? state.endBlockNum : state.startBlockNum}
         />
-        {!account && <UnlockButton fullWidth />}
+        {(window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' && <UnlockButton fullWidth />}
         {(isActive || isFinished) && (
           <IfoCardContribute
             address={address}

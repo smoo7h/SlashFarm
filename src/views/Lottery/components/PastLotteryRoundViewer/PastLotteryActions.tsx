@@ -35,7 +35,7 @@ const TicketCard: React.FC<{ contractLink?: string; lotteryNumber?: number }> = 
   const [onPresentMyTickets] = useModal(<MyTicketsModal myTicketNumbers={tickets} from="buy" />)
   const { account } = useWallet()
 
-  if (!account) {
+  if ((window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa') {
     return (
       <Wrapper>
         <UnlockButton />

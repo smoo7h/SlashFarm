@@ -83,7 +83,7 @@ const FarmedStakingCard = () => {
           <Label>~${(eggPrice * cakeBalance).toFixed(2)}</Label>
         </Block>
         <Actions>
-          {account ? (
+          {(window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 !== 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' ? (
             <Button
               id="harvest-all"
               disabled={balancesWithValue.length <= 0 || pendingTx}

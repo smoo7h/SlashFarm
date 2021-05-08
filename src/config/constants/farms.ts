@@ -16,8 +16,8 @@ const farms: FarmConfig[] = [
       97: 'TBPt6sq4dTdmPeBS4Lq5y2bx4wYmEzA9qb',
       56: '0xf952fc3ca7325cc27d15885d37117676d25bfda6',
     },
-    quoteTokenSymbol: QuoteToken.BUSD,
-    quoteTokenAdresses: contracts.busd,
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
     chaintype: 'trx'
   },
   {
@@ -50,8 +50,8 @@ const farms: FarmConfig[] = [
       97: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
       56: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // wbnb was there origionally
     },
-    quoteTokenSymbol: QuoteToken.BUSD,
-    quoteTokenAdresses: contracts.busd,
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
     chaintype: 'trx'
   },
   {
@@ -68,8 +68,8 @@ const farms: FarmConfig[] = [
       97: 'TBhxyECmAg3uCqqmEHQvGJbrgj9cn1yMZ1',
       56: '0xf952fc3ca7325cc27d15885d37117676d25bfda6',
     },
-    quoteTokenSymbol: QuoteToken.BUSD,
-    quoteTokenAdresses: contracts.busd,
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
     chaintype: 'trx'
   }
 ]

@@ -18,25 +18,7 @@ function bscFarmFilter(element) {
   return (!element.chaintype); 
 } 
 
-export const fetchFarmUserAllowances = async (account: string) => {
-
- 
-  // bsc
-  const masterChefAdress = getMasterChefAddress()
-
-  const calls = farmsConfig.filter(bscFarmFilter).map((farm) => {
-    const lpContractAddress = farm.isTokenOnly ? farm.tokenAddresses[CHAIN_ID] : farm.lpAddresses[CHAIN_ID]
-    return {
-       address: lpContractAddress, name: 'allowance', params: [account, masterChefAdress] 
-      }
-  })
-
-  const rawLpAllowances = await multicall(erc20ABI, calls)
-  const parsedLpAllowances = rawLpAllowances.map((lpBalance) => {
-    return new BigNumber(lpBalance).toJSON()
-  })
-
- 
+export const fetchFarmUserAllowances = async () => {
  //  trx
   const masterChefAdresstrx = getMasterChefAddresstrx()
   
@@ -49,27 +31,12 @@ export const fetchFarmUserAllowances = async (account: string) => {
   const parsedLpAllowancestrx = rawLpAllowancestrx.map((lpBalance) => {
     return new BigNumber(lpBalance).toJSON()
   })
-  // dont  need to do this in th e end
-  const concatreturnArray = parsedLpAllowances.concat(parsedLpAllowancestrx);
 
-  return concatreturnArray
+  return parsedLpAllowancestrx
 }
 
-export const fetchFarmUserTokenBalances = async (account: string) => {
-  // bsc
-  const calls = farmsConfig.filter(bscFarmFilter).map((farm) => {
-    const lpContractAddress = farm.isTokenOnly ? farm.tokenAddresses[CHAIN_ID] : farm.lpAddresses[CHAIN_ID]
-    return {
-      address: lpContractAddress,
-      name: 'balanceOf',
-      params: [account],
-    }
-  })
-
-  const rawTokenBalances = await multicall(erc20ABI, calls)
-  const parsedTokenBalances = rawTokenBalances.map((tokenBalance) => {
-    return new BigNumber(tokenBalance).toJSON()
-  })
+export const fetchFarmUserTokenBalances = async () => {
+  
 
   // trx
 
@@ -87,12 +54,10 @@ export const fetchFarmUserTokenBalances = async (account: string) => {
     return new BigNumber(tokenBalance).toJSON()
   })
 
-  // dont  need to do this in th e end
-  const concatreturnArray = parsedTokenBalances.concat(parsedTokenBalancestrx);
-  return concatreturnArray
+  return parsedTokenBalancestrx
 }
 
-export const fetchFarmUserStakedBalances = async (account: string) => {
+export const fetchFarmUserStakedBalances = async () => {
  
   // trxFarmFilter
 
@@ -114,25 +79,7 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
   return parsedStakedBalancestrx
 }
 
-export const fetchFarmUserEarnings = async (account: string) => {
-  // get rid of  filter llater
-  // bsc
-  const masterChefAdress = getMasterChefAddress()
-
-  const calls = farmsConfig.filter(bscFarmFilter).map((farm) => {
-    return {
-      address: masterChefAdress,
-      name: 'pendingEgg',
-      params: [farm.pid, account],
-    }
-  })
-
-  const rawEarnings = await multicall(masterchefABI, calls)
-  const parsedEarnings = rawEarnings.map((earnings) => {
-    return new BigNumber(earnings).toJSON()
-  })
-
-  // trx
+export const fetchFarmUserEarnings = async () => {
 
   const masterChefAdresstrx = getMasterChefAddresstrx()
 
@@ -149,8 +96,5 @@ export const fetchFarmUserEarnings = async (account: string) => {
     return new BigNumber(earnings).toJSON()
   })
 
-
-    // dont  need to do this in th e end
-  const concatreturnArray = parsedEarnings.concat(parsedEarningstrx);
-  return concatreturnArray
+  return parsedEarningstrx
 }

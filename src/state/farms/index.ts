@@ -39,22 +39,20 @@ export const { setFarmsPublicData, setFarmUserData } = farmsSlice.actions
 
 // Thunks
 export const fetchFarmsPublicDataAsync = () => async (dispatch) => {
-   // const farms2 = await fetchFarmstrx()
-   // dispatch(setFarmsPublicData(farms2))
-
-  // const farms = await fetchFarms()
- //  dispatch(setFarmsPublicData(farms))
-
-  const farms2 = await fetchFarmstrx()
-  dispatch(setFarmsPublicData(farms2))
-
+  
+  if((window as any).tronWeb){
+    const farms2 = await fetchFarmstrx()
+    dispatch(setFarmsPublicData(farms2))
+  
+  }
+ 
   
 }
-export const fetchFarmUserDataAsync = (account) => async (dispatch) => {
-  const userFarmAllowances = await fetchFarmUserAllowances(account)
-  const userFarmTokenBalances = await fetchFarmUserTokenBalances(account)
-  const userStakedBalances = await fetchFarmUserStakedBalances(account)
-  const userFarmEarnings = await fetchFarmUserEarnings(account)
+export const fetchFarmUserDataAsync = () => async (dispatch) => {
+  const userFarmAllowances = await fetchFarmUserAllowances()
+  const userFarmTokenBalances = await fetchFarmUserTokenBalances()
+  const userStakedBalances = await fetchFarmUserStakedBalances()
+  const userFarmEarnings = await fetchFarmUserEarnings()
 
   const arrayOfUserDataObjects = userFarmAllowances.map((farmAllowance, index) => {
     return {

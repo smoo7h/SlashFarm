@@ -147,7 +147,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         )}
         <Label isFinished={isFinished && sousId !== 0} text={TranslateString(330, `${tokenName} earned`)} />
         <StyledCardActions>
-          {!account && <UnlockButton />}
+          {(window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa' && <UnlockButton />}
           {account &&
             (needsApproval && !isOldSyrup ? (
               <div style={{ flex: 1 }}>
@@ -162,10 +162,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                   onClick={
                     isOldSyrup
                       ? async () => {
-                          setPendingTx(true)
-                          await onUnstake('0')
-                          setPendingTx(false)
-                        }
+                        setPendingTx(true)
+                        await onUnstake('0')
+                        setPendingTx(false)
+                      }
                       : onPresentWithdraw
                   }
                 >

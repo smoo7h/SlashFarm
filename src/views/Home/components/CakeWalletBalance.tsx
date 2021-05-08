@@ -11,7 +11,7 @@ const CakeWalletBalance = ({ cakeBalance }) => {
   const TranslateString = useI18n()
   const { account } = useWallet()
 
-  if (!account) {
+  if ((window as any).tronWeb && (window as any).tronWeb.defaultAddress.base58 === 'TYrNrk11FhuZWZEzPZTf6YqaKA6joeApaa') {
     return (
       <Text color="textDisabled" style={{ lineHeight: '36px' }}>
         {TranslateString(298, 'Locked')}
